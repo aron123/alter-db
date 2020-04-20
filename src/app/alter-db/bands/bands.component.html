@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-12">
+        <h4>Zenekarok</h4>
+        <hr>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let band of bands">
+                <div>
+                    <span class="font-weight-bold">#{{ band.id }}</span> - {{ band.name }}
+                    <button class="btn btn-sm btn-primary" (click)="goToEditForm(band.id)">Szerkesztés</button>
+                </div>
+                <div>
+                    <span class="font-weight-bold">Alapítás éve:</span> {{ band.foundationYear }}
+                </div>
+                <div>
+                    <span class="font-weight-bold">Tagok:</span> {{ band.members }}
+                </div>
+                <div style="white-space: pre-wrap;">
+                    <span class="font-weight-bold">Leírás:</span><br>
+                    {{ band.description }}
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

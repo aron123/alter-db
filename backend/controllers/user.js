@@ -28,8 +28,6 @@ async function loginUser (req, res) {
         passwordMatch = false;
     }
 
-    console.log(passwordMatch)
-
     if (!passwordMatch) {
         return handleError(res);
     }

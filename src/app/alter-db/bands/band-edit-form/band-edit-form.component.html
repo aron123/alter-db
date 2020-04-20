@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-sm btn-primary" (click)="goBack()">Vissza</button>
+    </div>
+</div>
+<div class="row" *ngIf="showForm">
+    <div class="col-md-12">
+        <h4>Szerkesztés</h4>
+        <hr>
+        <form [formGroup]="bandForm">
+            <div class="form-group row">
+                <label for="name" class="col-md-2">Név:</label>
+                <input type="text" class="form-control col-md-4" id="name" formControlName="name">
+            </div>
+
+            <div class="form-group row">
+                <label for="foundation-year" class="col-md-2">Alapítás éve:</label>
+                <input type="number" class="form-control col-md-4" id="foundation-year" formControlName="foundationYear">
+            </div>
+
+            <div class="form-group row">
+                <label for="members" class="col-md-2">Tagok:</label>
+                <input type="text" class="form-control col-md-4" id="members" formControlName="members">
+            </div>
+
+            <div class="form-group row">
+                <label for="description" class="col-md-2">Leírás:</label>
+                <textarea class="form-control col-md-4" id="description" formControlName="description"></textarea>
+            </div>
+
+            <button class="btn btn-sm btn-success" (click)="saveBand()">Mentés</button>
+        </form>
+    </div>
+</div>
