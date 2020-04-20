@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 pt-5">
+            <div *ngIf="alertMessage" class="alert alert-danger text-center" role="alert">
+                {{ alertMessage }}
+            </div>
+            <div *ngIf="loading" class="alert alert-primary text-center" role="alert">
+                Logging in ...
+            </div>
+            <form (submit)="login()">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="nick" name="nick" [(ngModel)]="nick"
+                        placeholder="Nickname">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password"
+                        placeholder="Password">
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" (click)="login()" [disabled]="loading">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>

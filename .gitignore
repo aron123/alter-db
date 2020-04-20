@@ -1,0 +1,6 @@
+node_modules
+backend/config.js
+info.json
+info.txt
+*/database/autocheck.db
+*/database/autocheck_*.db
