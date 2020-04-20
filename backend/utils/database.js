@@ -8,9 +8,9 @@ async function connect () {
             return db;
         }
 
-        db = await sqlite.open('./backend/database/autocheck_v2.db', { Promise });
-        await db.run('CREATE TABLE IF NOT EXISTS torrent (id INT PRIMARY KEY, data TEXT NOT NULL);');
+        db = await sqlite.open('./backend/database/alter_db.db', { Promise });
         await db.run('CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, nick TEXT, password TEXT);');
+        await db.run('CREATE TABLE IF NOT EXISTS bands (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, foundation_year NUMBER, members TEXT, description TEXT);');
         console.log('Database connection is opened.');
         return db;
     } catch (err) {
