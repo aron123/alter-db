@@ -1,3 +1,4 @@
 node_modules
 backend/config.js
 */database/alter_db.db
+*/database/alter_db_v*.db
