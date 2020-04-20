@@ -15,7 +15,8 @@ const jwt = require('./utils/jwtUtils');
 
     const apiRouter = express.Router();
 
-    apiRouter.use('user', require('./routes/user'))
+    apiRouter.use('/user', require('./routes/user'));
+    apiRouter.use('/band', require('./routes/band'));
 
     app.use('/api', apiRouter);
 
