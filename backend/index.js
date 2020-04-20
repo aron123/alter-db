@@ -4,12 +4,14 @@ const express = require('express');
 const app = express();
 const db = require('./utils/database');
 const jwt = require('./utils/jwtUtils');
+const history = require('connect-history-api-fallback')
 
 (async () => {
     const connection = await db.connect();
     db.db = connection;
 
     app.use(bodyParser.json());
+    app.use(history());
 
     const apiRouter = express.Router();
     
