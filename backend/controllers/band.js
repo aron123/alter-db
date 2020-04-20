@@ -19,7 +19,7 @@ async function getAllBands(req, res) {
             data: bands
         });
     } catch (err) {
-        handleError(res);
+        return handleError(res);
     }
 }
 
@@ -52,7 +52,7 @@ async function modifyBand(req, res) {
     try {
         band = await db.get(SQL`SELECT id FROM band WHERE id=${id}`);
     } catch (err) {
-        handleError(res);
+        return handleError(res);
     }
 
     if (!band) {
@@ -65,7 +65,7 @@ async function modifyBand(req, res) {
     try {
         await db.run(SQL`UPDATE band SET name=${name}, foundation_year=${foundation_year}, members=${members}, description=${description} WHERE id=${id}`);
     } catch (err) {
-        handleError(res);
+        return handleError(res);
     }
 
     res.json({ success: true });
