@@ -10,15 +10,17 @@ const jwt = require('./utils/jwtUtils');
     db.db = connection;
 
     app.use(bodyParser.json());
-    app.use(jwt.checkJwt);
-    app.use(jwt.handleAuthenticationError);
 
     const apiRouter = express.Router();
-
+    
+    apiRouter.use(jwt.checkJwt);
+    apiRouter.use(jwt.handleAuthenticationError);
     apiRouter.use('/user', require('./routes/user'));
     apiRouter.use('/band', require('./routes/band'));
 
     app.use('/api', apiRouter);
+
+    app.use(express.static('dist/alter-db'));
 
     app.listen(config.port, (err) => {
         if (err) {
