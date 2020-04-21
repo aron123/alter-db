@@ -1,1 +1,27 @@
-<p>site-log works!</p>
+<div class="row">
+    <div class="col-md-12">
+        <h4>Napló</h4>
+        <hr>
+        <small>Az utolsó 50 aktivitás</small>
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>Időpont</th>
+                    <th>Felhasználó</th>
+                    <th>Tevékenység</th>
+                    <th>Eredeti adat</th>
+                    <th>Új adat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let entry of logEntries">
+                    <td>{{ entry.time }}</td>
+                    <td>{{ entry.nick }}</td>
+                    <td>{{ entry.act }}</td>
+                    <td>{{ entry.originalContent }}</td>
+                    <td>{{ entry.newContent }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

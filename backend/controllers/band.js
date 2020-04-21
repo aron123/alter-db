@@ -1,8 +1,13 @@
 const SQL = require('sql-template-strings');
 const db = require('../utils/database').db;
+
 const docx = require('docx');
 const { Document, Packer, Paragraph, TextRun } = docx;
+
 const { handleError } = require('./common/error-handler');
+
+const logger = require('./common/site-logger');
+const acts = require('./common/log-acts');
 
 async function getAllBands(req, res) {
     try {
@@ -43,7 +48,7 @@ async function modifyBand(req, res) {
     let band;
 
     try {
-        band = await db.get(SQL`SELECT id FROM band WHERE id=${id}`);
+        band = await db.get(SQL`SELECT * FROM band WHERE id=${id}`);
     } catch (err) {
         return handleError(res);
     }
@@ -57,6 +62,7 @@ async function modifyBand(req, res) {
 
     try {
         await db.run(SQL`UPDATE band SET name=${name}, foundation_year=${foundation_year}, members=${members}, description=${description} WHERE id=${id}`);
+        await logger.log(req.user.id, acts.UPDATE, band, req.body);
     } catch (err) {
         return handleError(res);
     }
