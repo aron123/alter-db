@@ -8,9 +8,15 @@ import { AuthService } from '../core/services/auth.service';
 })
 export class AlterDBComponent implements OnInit {
 
+  collapsed: boolean = true;
+
   constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  switchCollapse() {
+    this.collapsed = !this.collapsed;
   }
 
   logout() {

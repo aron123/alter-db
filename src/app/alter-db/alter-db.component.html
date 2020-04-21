@@ -1,24 +1,24 @@
 <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Alter-DB</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" (click)="switchCollapse()" data-toggle="collapse"
+            data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse justify-content-end" [ngbCollapse]="collapsed" id="navbarNav">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/bands">Zenekarok</a>
+                    <a class="nav-link" routerLink="/bands" (click)="switchCollapse()">Zenekarok</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/bands/new">Új zenekar</a>
+                    <a class="nav-link" routerLink="/bands/new" (click)="switchCollapse()">Új zenekar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/export">Exportálás</a>
+                    <a class="nav-link" routerLink="/export" (click)="switchCollapse()">Exportálás</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/site-log">Napló</a>
+                    <a class="nav-link" routerLink="/site-log" (click)="switchCollapse()">Napló</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" (click)="logout()">Kilépés</a>
