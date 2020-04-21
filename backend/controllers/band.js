@@ -102,7 +102,7 @@ async function createBand (req, res) {
     }
 }
 
-async function exportBands(req, res) {
+async function exportBandsToDocx(req, res) {
     let bands;
 
     try {
@@ -170,10 +170,22 @@ async function exportBands(req, res) {
     res.send(Buffer.from(b64string, 'base64'));
 }
 
+async function exportBandsToJson(req, res) {
+    try {
+        const bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band;`);
+        res.setHeader('Content-Disposition', 'attachment; filename=alter.json');
+        res.send(JSON.stringify(bands));
+    } catch (err) {
+        return handleError(res);
+    }
+}
+
+
 module.exports = {
     getAllBands,
     getBandById,
     modifyBand,
     createBand,
-    exportBands
+    exportBandsToDocx,
+    exportBandsToJson
 };

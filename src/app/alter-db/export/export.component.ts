@@ -13,18 +13,30 @@ export class ExportComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  async getDocx() {
-    let blob = await this.bandService.exportBands();
-    blob = blob.slice(0, blob.size, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+  startDownload(blob, fileName) {
     const url = window.URL.createObjectURL(blob);
-
     const a = document.createElement('a');
+
     a.setAttribute('style', 'display: none');
-    document.body.appendChild(a);
     a.href = url;
-    a.download = `alter-${Date.now()}.docx`;
+    a.download = fileName;
+
+    document.body.appendChild(a);
     a.click();
+
     window.URL.revokeObjectURL(url);
+  }
+
+  async getDocx() {
+    let blob = await this.bandService.exportBandsToDocx();
+    blob = blob.slice(0, blob.size, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    this.startDownload(blob, `alter-${Date.now()}.docx`);
+  }
+
+  async getJson() {
+    let blob = await this.bandService.exportBandsToJson();
+    blob = blob.slice(0, blob.size, 'application/json');
+    this.startDownload(blob, `alter-${Date.now()}.json`);
   }
 
 }

@@ -35,5 +35,7 @@ export class BandsService {
     return await this.http.get('/api/band/export/docx', { responseType: 'blob' }).toPromise();
   }
 
+  async exportBandsToJson(): Promise<Blob> {
+    return await this.http.get('/api/band/export/json', { responseType: 'blob' }).toPromise();
   }
 }
