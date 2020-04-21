@@ -84,6 +84,8 @@ async function createBand (req, res) {
         const { stmt } = await db.run(SQL`INSERT INTO band (name, foundation_year, members, description) VALUES (${band.name}, ${band.foundation_year}, ${band.members}, ${band.description});`);
         const insertedBand = await db.get(SQL`SELECT id, name, foundation_year, members, description FROM band WHERE id=${stmt.lastID}`);
 
+        await logger.log(req.user.id, acts.CREATE, null, insertedBand);
+
         res.json({
             success: true,
             data: insertedBand
