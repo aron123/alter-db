@@ -21,7 +21,7 @@ export class BandsComponent implements OnInit {
   }
 
   goToEditForm(id: number) {
-    this.router.navigate(['bands', 'edit', id.toString()]);
+    this.router.navigate(['bands', id.toString()]);
   }
 
 }

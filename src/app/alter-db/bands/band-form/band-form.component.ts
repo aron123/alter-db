@@ -5,14 +5,16 @@ import { BandsService } from '../bands.service';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-band-edit-form',
-  templateUrl: './band-edit-form.component.html',
-  styleUrls: ['./band-edit-form.component.css']
+  selector: 'app-band-form',
+  templateUrl: './band-form.component.html',
+  styleUrls: ['./band-form.component.css']
 })
-export class BandEditFormComponent implements OnInit {
+export class BandFormComponent implements OnInit {
 
   id: number;
   showForm: boolean = false;
+  isNewBand: boolean = true;
+  errorMessage: string;
   bandForm = new FormGroup({
     id: new FormControl(0),
     name: new FormControl(''),
@@ -30,8 +32,12 @@ export class BandEditFormComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const band = await this.bandService.getBandById(this.id);
-    this.bandForm.setValue(band);
+    if (this.id) {
+      this.isNewBand = false;
+      const band = await this.bandService.getBandById(this.id);
+      this.bandForm.setValue(band);
+    }
+
     this.showForm = true;
   }
 
@@ -40,11 +46,15 @@ export class BandEditFormComponent implements OnInit {
   }
 
   async saveBand() {
-    const success = await this.bandService.updateBand(this.bandForm.value);
-    // TODO: handle errors
-
-    if (success) {
+    try {
+      this.errorMessage = '';
+      this.isNewBand
+        ? await this.bandService.createBand(this.bandForm.value)
+        : await this.bandService.updateBand(this.bandForm.value);
       this.goBack();
+    } catch (err) {
+      const res = err.error;
+      this.errorMessage = res.error;
     }
   }
 

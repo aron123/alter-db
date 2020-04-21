@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { AlterDBComponent } from './alter-db.component';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { BandsComponent } from './bands/bands.component';
-import { BandEditFormComponent } from './bands/band-edit-form/band-edit-form.component';
+import { BandFormComponent } from './bands/band-form/band-form.component';
 import { ExportComponent } from './export/export.component';
+import { SiteLogComponent } from './site-log/site-log.component';
 
 const routes: Routes = [
   {
@@ -22,12 +23,20 @@ const routes: Routes = [
         component: BandsComponent
       },
       {
-        path: 'bands/edit/:id',
-        component: BandEditFormComponent
+        path: 'bands/new',
+        component: BandFormComponent
+      },
+      {
+        path: 'bands/:id',
+        component: BandFormComponent
       },
       {
         path: 'export',
         component: ExportComponent
+      },
+      {
+        path: 'site-log',
+        component: SiteLogComponent
       }
     ]
   }

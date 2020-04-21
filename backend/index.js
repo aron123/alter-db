@@ -6,7 +6,9 @@ const db = require('./utils/database');
 const jwt = require('./utils/jwtUtils');
 const history = require('connect-history-api-fallback');
 
-app.use(history({}));
+if (process.env.NODE_ENV === 'production') {
+    app.use(history({}));
+}
 
 (async () => {
     const connection = await db.connect();
@@ -20,6 +22,7 @@ app.use(history({}));
     apiRouter.use(jwt.handleAuthenticationError);
     apiRouter.use('/user', require('./routes/user'));
     apiRouter.use('/band', require('./routes/band'));
+    apiRouter.use('/site-log', require('./routes/site-log'));
 
     app.use('/api', apiRouter);
 

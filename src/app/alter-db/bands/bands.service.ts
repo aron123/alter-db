@@ -19,9 +19,12 @@ export class BandsService {
     return this.adapter.adapt(res['data']);
   }
 
-  async updateBand(band: Band): Promise<boolean> {
-    const res = await this.http.put(`/api/band/${band.id}`, this.adapter.back(band)).toPromise();
-    return res['success'];
+  async updateBand(band: Band): Promise<any> {
+    await this.http.put(`/api/band/${band.id}`, this.adapter.back(band)).toPromise();
+  }
+
+  async createBand(band: Band): Promise<any> {
+    await this.http.post(`/api/band/`, this.adapter.back(band)).toPromise();
   }
 
   async exportBands(): Promise<Blob> {

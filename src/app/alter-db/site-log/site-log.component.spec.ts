@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BandEditFormComponent } from './band-edit-form.component';
+import { SiteLogComponent } from './site-log.component';
 
-describe('BandEditFormComponent', () => {
-  let component: BandEditFormComponent;
-  let fixture: ComponentFixture<BandEditFormComponent>;
+describe('SiteLogComponent', () => {
+  let component: SiteLogComponent;
+  let fixture: ComponentFixture<SiteLogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BandEditFormComponent ]
+      declarations: [ SiteLogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BandEditFormComponent);
+    fixture = TestBed.createComponent(SiteLogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

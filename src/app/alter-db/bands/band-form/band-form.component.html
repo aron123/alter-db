@@ -5,8 +5,11 @@
 </div>
 <div class="row" *ngIf="showForm">
     <div class="col-md-12">
-        <h4>Szerkesztés</h4>
+        <h4>{{ isNewBand ? 'Hozzáadás' : 'Szerkesztés' }}</h4>
         <hr>
+        <div class="col-md-6 alert alert-danger" role="alert" *ngIf="errorMessage">
+            {{ errorMessage }}
+        </div>
         <form [formGroup]="bandForm">
             <div class="form-group row">
                 <label for="name" class="col-md-2">Név:</label>
@@ -15,7 +18,8 @@
 
             <div class="form-group row">
                 <label for="foundation-year" class="col-md-2">Alapítás éve:</label>
-                <input type="number" class="form-control col-md-4" id="foundation-year" formControlName="foundationYear">
+                <input type="number" class="form-control col-md-4" id="foundation-year"
+                    formControlName="foundationYear">
             </div>
 
             <div class="form-group row">

@@ -1,15 +1,8 @@
 const SQL = require('sql-template-strings');
 const db = require('../utils/database').db;
 const docx = require('docx');
-
 const { Document, Packer, Paragraph, TextRun } = docx;
-
-function handleError(res) {
-    res.status(500).json({
-        success: false,
-        error: 'Server error occurred.'
-    });
-}
+const { handleError } = require('./common/error-handler');
 
 async function getAllBands(req, res) {
     try {
@@ -69,6 +62,36 @@ async function modifyBand(req, res) {
     }
 
     res.json({ success: true });
+}
+
+async function createBand (req, res) {
+    const band = req.body;
+
+    if (!band.name) {
+        return res.status(400).json({
+            success: false,
+            error: 'At least band name must be defined.'
+        });
+    }
+
+    try {
+        const { stmt } = await db.run(SQL`INSERT INTO band (name, foundation_year, members, description) VALUES (${band.name}, ${band.foundation_year}, ${band.members}, ${band.description});`);
+        const insertedBand = await db.get(SQL`SELECT id, name, foundation_year, members, description FROM band WHERE id=${stmt.lastID}`);
+
+        res.json({
+            success: true,
+            data: insertedBand
+        });
+    } catch (err) {
+        if (err.errno === 19) {
+            return res.status(400).json({
+                success: false,
+                error: `A band is already exists with the name: ${band.name}`
+            });
+        }
+
+        return handleError(res);
+    }
 }
 
 async function exportBands(req, res) {
@@ -135,8 +158,7 @@ async function exportBands(req, res) {
     }
 
     const b64string = await Packer.toBase64String(doc);
-    //TODO
-    res.setHeader('Content-Disposition', 'attachment; filename=asd.docx');
+    res.setHeader('Content-Disposition', 'attachment; filename=alter.docx');
     res.send(Buffer.from(b64string, 'base64'));
 }
 
@@ -144,5 +166,6 @@ module.exports = {
     getAllBands,
     getBandById,
     modifyBand,
+    createBand,
     exportBands
 };
