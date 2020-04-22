@@ -1,5 +1,6 @@
 import { Adapter } from './adapter';
 import { Injectable } from '@angular/core';
+import { Image, ImageAdapter } from './image.model';
 
 export class Band {
     constructor(
@@ -15,7 +16,7 @@ export class Band {
 })
 export class BandAdapter implements Adapter<Band> {
 
-    constructor() { }
+    constructor(public imageAdapter: ImageAdapter) { }
 
     back(band: Band): any {
         return {

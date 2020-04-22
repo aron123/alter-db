@@ -1,11 +1,17 @@
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-sm btn-primary" (click)="goBack()">Vissza</button>
+        <button class="btn btn-sm btn-primary mb-3" (click)="goBack()">Vissza</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4>{{ isNewBand ? 'Hozzáadás' : 'Szerkesztés' }}</h4>
+        <hr>
     </div>
 </div>
 <div class="row" *ngIf="showForm">
-    <div class="col-md-12">
-        <h4>{{ isNewBand ? 'Hozzáadás' : 'Szerkesztés' }}</h4>
+    <div class="col-md-6">
+        <h5>Adatok</h5>
         <hr>
         <div class="col-md-6 alert alert-danger" role="alert" *ngIf="errorMessage">
             {{ errorMessage }}
@@ -13,26 +19,55 @@
         <form [formGroup]="bandForm">
             <div class="form-group row">
                 <label for="name" class="col-md-2">Név:</label>
-                <input type="text" class="form-control col-md-4" id="name" formControlName="name">
+                <input type="text" class="form-control col-md-10" id="name" formControlName="name">
             </div>
 
             <div class="form-group row">
                 <label for="foundation-year" class="col-md-2">Alapítás éve:</label>
-                <input type="number" class="form-control col-md-4" id="foundation-year"
+                <input type="number" class="form-control col-md-10" id="foundation-year"
                     formControlName="foundationYear">
             </div>
 
             <div class="form-group row">
                 <label for="members" class="col-md-2">Tagok:</label>
-                <input type="text" class="form-control col-md-4" id="members" formControlName="members">
+                <input type="text" class="form-control col-md-10" id="members" formControlName="members">
             </div>
 
             <div class="form-group row">
                 <label for="description" class="col-md-2">Leírás:</label>
-                <textarea class="form-control col-md-4" id="description" formControlName="description"></textarea>
+                <textarea class="form-control col-md-10" id="description" formControlName="description"></textarea>
             </div>
 
             <button class="btn btn-sm btn-success" (click)="saveBand()">Mentés</button>
         </form>
+    </div>
+    <div class="col-md-6" *ngIf="!isNewBand">
+        <h5>Képek</h5>
+        <hr>
+        <div class="row text-center ml-2">
+            <div class="col-md-4" *ngIf="images.length === 0">
+                Nincsenek képek.
+            </div>
+            <div class="col-md-4" class="text-center" *ngFor="let img of images">
+                <a [href]="img.url" target="_blank">
+                    <img [src]="img.url" alt="Kép" class="p-1" style="width: 210px; height: 158px;">
+                </a>
+                <br>
+                <button class="btn btn-sm btn-danger" (click)="deleteImage(img)">Törlés</button>
+            </div>
+        </div>
+        <div class="row ml-2 mt-3">
+            <div class="col-md-12">
+                <h6>Új képek feltöltése</h6>
+                <hr>
+                <form #imageForm>
+                    <div class="form-group">
+                        <input type="file" #fileUpload class="form-control-file" name="images" id="images"
+                            accept="image/*" multiple>
+                    </div>
+                </form>
+                <button class="btn btn-sm btn-primary" (click)="uploadImages()">Feltöltés</button>
+            </div>
+        </div>
     </div>
 </div>

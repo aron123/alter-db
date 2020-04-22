@@ -9,6 +9,10 @@ const { handleError } = require('./common/error-handler');
 const logger = require('./common/site-logger');
 const acts = require('./common/log-acts');
 
+async function getImages (bandId) {
+    return await db.all(SQL`SELECT id, url FROM image WHERE band_id=${bandId}`);
+}
+
 async function getAllBands(req, res) {
     try {
         const bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band;`);
@@ -17,6 +21,7 @@ async function getAllBands(req, res) {
             data: bands
         });
     } catch (err) {
+        console.error(err);
         return handleError(res);
     }
 }
@@ -25,6 +30,7 @@ async function getBandById(req, res) {
     try {
         const { id } = req.params;
         const band = await db.get(SQL`SELECT id, name, foundation_year, members, description FROM band WHERE id=${id};`);
+        band.images = await getImages(band.id);
 
         if (!band) {
             return res.status(400).json({
@@ -106,7 +112,7 @@ async function exportBandsToDocx(req, res) {
     let bands;
 
     try {
-        bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band;`);
+        bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band ORDER BY name ASC;`);
     } catch (err) {
         handleError(res);
     }

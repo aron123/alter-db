@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     apiRouter.use(jwt.handleAuthenticationError);
     apiRouter.use('/user', require('./routes/user'));
     apiRouter.use('/band', require('./routes/band'));
+    apiRouter.use('/image', require('./routes/image'));
     apiRouter.use('/site-log', require('./routes/site-log'));
 
     app.use('/api', apiRouter);

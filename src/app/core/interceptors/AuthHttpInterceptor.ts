@@ -13,6 +13,15 @@ export class AuthHttpInterceptor implements HttpInterceptor {
         public authService: AuthService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (req.url.startsWith('https://api.imgur.com/')) {
+            req = req.clone({
+                headers: req.headers.set('Authorization', 'Client-ID 595b4cc85fdb7a6')
+            });
+
+            return next.handle(req);
+        }
+
+
         req = req.clone({
             headers: req.headers.set('Authorization', `Bearer ${this.tokenService.getToken()}`)
         });

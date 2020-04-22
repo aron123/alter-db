@@ -4,19 +4,32 @@
         <hr>
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let band of bands">
-                <div>
-                    <span class="font-weight-bold">#{{ band.id }}</span> - {{ band.name }}
-                    <button class="btn btn-sm btn-primary" (click)="goToEditForm(band.id)">Szerkesztés</button>
-                </div>
-                <div>
-                    <span class="font-weight-bold">Alapítás éve:</span> {{ band.foundationYear }}
-                </div>
-                <div>
-                    <span class="font-weight-bold">Tagok:</span> {{ band.members }}
-                </div>
-                <div style="white-space: pre-wrap;">
-                    <span class="font-weight-bold">Leírás:</span><br>
-                    {{ band.description }}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="font-weight-bold">#{{ band.id }}</span> - {{ band.name }}
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-sm btn-primary" (click)="goToEditForm(band.id)">Szerkesztés</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                <span class="font-weight-bold">Alapítás éve:</span> {{ band.foundationYear }}
+                            </div>
+                            <div>
+                                <span class="font-weight-bold">Tagok:</span> {{ band.members }}
+                            </div>
+                            <div style="white-space: pre-wrap;">
+                                <span class="font-weight-bold">Leírás:</span><br>
+                                {{ band.description }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            ... KÉPEK ...
+                        </div>
+                    </div>
                 </div>
             </li>
         </ul>
