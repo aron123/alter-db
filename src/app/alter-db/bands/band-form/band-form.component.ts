@@ -22,6 +22,7 @@ export class BandFormComponent implements OnInit {
   imageForm: ElementRef;
   @ViewChild("fileUpload", { static: false })
   fileUpload: ElementRef;
+  isUploadInProgress: boolean = false;
 
   images: Image[] = [];
 
@@ -30,7 +31,8 @@ export class BandFormComponent implements OnInit {
     name: new FormControl(''),
     foundationYear: new FormControl(1980),
     members: new FormControl(''),
-    description: new FormControl('')
+    description: new FormControl(''),
+    images: new FormControl()
   });
 
   constructor(
@@ -70,25 +72,34 @@ export class BandFormComponent implements OnInit {
     }
   }
 
+  fileToBase64(file: File): Promise<string> {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    return new Promise(resolve => {
+      reader.onloadend = () => {
+        resolve(String(reader.result));
+      };
+    });
+  }
+
   async uploadImages() {
+    this.isUploadInProgress = true;
     const bandId = this.bandForm.get('id').value;
     const files: FileList = this.fileUpload.nativeElement.files;
 
-    // TODO: legyen sorrendhelyes
     for (const file of Array.from(files)) {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const image: Image = await this.imgService.uploadImage(bandId, String(reader.result).split(',')[1]);
-          this.images.push(image);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      await reader.readAsDataURL(file);
+      try {
+        const base64 = await this.fileToBase64(file);
+        const image: Image = await this.imgService.uploadImage(bandId, base64.split(',')[1]);
+        this.images.push(image);
+      } catch (err) {
+        console.error(err);
+        this.isUploadInProgress = false;
+      }
     }
 
     this.imageForm.nativeElement.reset();
+    this.isUploadInProgress = false;
   }
 
   async deleteImage(img: Image) {

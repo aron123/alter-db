@@ -5,7 +5,8 @@ export class Image {
     constructor(
         public id: number,
         public bandId: number,
-        public url: string) { }
+        public url: string,
+        public thumbnailUrl: string) { }
 }
 
 @Injectable({
@@ -17,6 +18,7 @@ export class ImageAdapter implements Adapter<Image> {
 
     back(img: Image): any {
         return {
+            id: img.id,
             band_id: img.bandId,
             url: img.url
         };
@@ -26,7 +28,8 @@ export class ImageAdapter implements Adapter<Image> {
         return new Image(
             img.id,
             img.band_id,
-            img.url
+            img.url,
+            img.thumbnail_url
         );
     }
 }

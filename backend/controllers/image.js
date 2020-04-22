@@ -10,7 +10,7 @@ async function getImagesOfBand (req, res) {
     const bandId = req.params.id;
 
     try {
-        const images = await db.all(SQL`SELECT id, band_id, url FROM image WHERE band_id=${bandId}`);
+        const images = await db.all(SQL`SELECT id, band_id, url, thumbnail_url FROM image WHERE band_id=${bandId}`);
         res.json({
             success: true,
             data: images
@@ -20,6 +20,12 @@ async function getImagesOfBand (req, res) {
         handleError(err);
     }
     
+}
+
+function generateThumbnailUrl (url) {
+    const urlParts = url.split('.');
+    urlParts[urlParts.length - 2] += 'm'; //medium sized thumbnail
+    return urlParts.join('.');
 }
 
 async function createImage(req, res) {
@@ -40,8 +46,9 @@ async function createImage(req, res) {
     }
 
     try {
-        const { stmt } = await db.run(SQL`INSERT INTO image (band_id, url) VALUES (${image.band_id}, ${image.url})`);
-        const savedImage = await db.get(SQL`SELECT id, band_id, url FROM image WHERE id=${stmt.lastID};`);
+        const thumbnail_url = generateThumbnailUrl(image.url);
+        const { stmt } = await db.run(SQL`INSERT INTO image (band_id, url, thumbnail_url) VALUES (${image.band_id}, ${image.url}, ${thumbnail_url})`);
+        const savedImage = await db.get(SQL`SELECT id, band_id, url, thumbnail_url FROM image WHERE id=${stmt.lastID};`);
         await logger.log(req.user.id, acts.CREATE, null, savedImage);
         res.json({
             success: true,
@@ -57,7 +64,7 @@ async function deleteImage(req, res) {
     const id = req.params.id;
 
     try {
-        const image = await db.get(SQL`SELECT id, band_id, url FROM image WHERE id=${id};`);
+        const image = await db.get(SQL`SELECT id, band_id, url, thumbnail_url FROM image WHERE id=${id};`);
 
         if (!image) {
             return res.status(400).json({

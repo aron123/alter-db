@@ -8,7 +8,8 @@ export class Band {
         public name: string,
         public foundationYear: number,
         public members: string,
-        public description: string) { }
+        public description: string,
+        public images: Image[]) { }
 }
 
 @Injectable({
@@ -34,7 +35,8 @@ export class BandAdapter implements Adapter<Band> {
             band.name,
             band.foundation_year,
             band.members,
-            band.description
+            band.description,
+            band.images.map(image => this.imageAdapter.adapt(image))
         );
     }
 }

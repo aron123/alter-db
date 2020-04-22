@@ -12,9 +12,9 @@ export class ImageService {
     public responseAdapter: SuccessResponseAdapter,
     public imageAdapter: ImageAdapter) { }
 
-  async getImagesOfBand(bandId: number) {
+  async getImagesOfBand(bandId: number): Promise<Image[]> {
     const res: SuccessResponse = this.responseAdapter.adapt(await this.http.get(`/api/image/band/${bandId}`).toPromise());
-    return res.data;
+    return res.data.map(img => this.imageAdapter.adapt(img));
   }
 
   async uploadImage(bandId: number, base64: string): Promise<Image> {
@@ -23,7 +23,7 @@ export class ImageService {
       formData.append('image', base64);
       const res = await this.http.post('https://api.imgur.com/3/upload/', formData).toPromise();
 
-      const img = this.imageAdapter.back(new Image(undefined, bandId, res['data'].link));
+      const img = this.imageAdapter.back(new Image(undefined, bandId, res['data'].link, undefined));
       const imageSavedRes: SuccessResponse = this.responseAdapter.adapt(await this.http.post('/api/image', img).toPromise());
       return this.imageAdapter.adapt(imageSavedRes.data);
     } catch (err) {

@@ -27,7 +27,15 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            ... KÉPEK ...
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-4 text-center" *ngFor="let image of band.images">
+                                        <a [href]="image.url" target="_blank">
+                                            <img [src]="image.thumbnailUrl" class="thumbnail p-1" alt="Kép">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

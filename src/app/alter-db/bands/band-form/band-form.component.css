@@ -1,0 +1,7 @@
+.thumbnail {
+    display: block;
+    max-width: 210px;
+    max-height: 158px;
+    width: auto;
+    height: auto;
+}

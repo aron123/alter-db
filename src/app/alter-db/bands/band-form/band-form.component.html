@@ -50,9 +50,8 @@
             </div>
             <div class="col-md-4" class="text-center" *ngFor="let img of images">
                 <a [href]="img.url" target="_blank">
-                    <img [src]="img.url" alt="Kép" class="p-1" style="width: 210px; height: 158px;">
+                    <img [src]="img.thumbnailUrl" alt="Kép" class="p-1 thumbnail">
                 </a>
-                <br>
                 <button class="btn btn-sm btn-danger" (click)="deleteImage(img)">Törlés</button>
             </div>
         </div>
@@ -66,7 +65,15 @@
                             accept="image/*" multiple>
                     </div>
                 </form>
-                <button class="btn btn-sm btn-primary" (click)="uploadImages()">Feltöltés</button>
+                <button class="btn btn-sm btn-primary" (click)="uploadImages()" [disabled]="isUploadInProgress">
+                    <span *ngIf="!isUploadInProgress">
+                        Feltöltés
+                    </span>
+                    <span *ngIf="isUploadInProgress">
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        Feltöltés...
+                    </span>
+                </button>
             </div>
         </div>
     </div>

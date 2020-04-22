@@ -9,6 +9,17 @@ const { handleError } = require('./common/error-handler');
 const logger = require('./common/site-logger');
 const acts = require('./common/log-acts');
 
+function mergeImagesToBands (images, bands) {
+    bands.forEach(band => band.images = []);
+
+    for (let image of images) {
+        const bandId = image.band_id;
+        bands.filter(band => band.id === bandId).forEach(band => band.images.push(image));
+    }
+
+    return bands;
+}
+
 async function getImages (bandId) {
     return await db.all(SQL`SELECT id, url FROM image WHERE band_id=${bandId}`);
 }
@@ -16,9 +27,12 @@ async function getImages (bandId) {
 async function getAllBands(req, res) {
     try {
         const bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band;`);
+        const images = await db.all(SQL`SELECT id, url, band_id, thumbnail_url FROM image;`);
+        const data = mergeImagesToBands(images, bands);
+
         res.json({
             success: true,
-            data: bands
+            data
         });
     } catch (err) {
         console.error(err);
@@ -44,6 +58,7 @@ async function getBandById(req, res) {
             data: band
         });
     } catch (err) {
+        console.error(err);
         handleError(res);
     }
 }
@@ -56,6 +71,7 @@ async function modifyBand(req, res) {
     try {
         band = await db.get(SQL`SELECT * FROM band WHERE id=${id}`);
     } catch (err) {
+        console.error(err);
         return handleError(res);
     }
 
@@ -114,6 +130,7 @@ async function exportBandsToDocx(req, res) {
     try {
         bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band ORDER BY name ASC;`);
     } catch (err) {
+        console.error(err);
         handleError(res);
     }
 
