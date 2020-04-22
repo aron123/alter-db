@@ -8,6 +8,9 @@ import { BandsService } from '../bands/bands.service';
 })
 export class ExportComponent implements OnInit {
 
+  isDocxDownloadInProgress: boolean = false;
+  isJsonDownloadInProgress: boolean = false;
+
   constructor(public bandService: BandsService) { }
 
   ngOnInit(): void {
@@ -28,15 +31,19 @@ export class ExportComponent implements OnInit {
   }
 
   async getDocx() {
+    this.isDocxDownloadInProgress = true;
     let blob = await this.bandService.exportBandsToDocx();
     blob = blob.slice(0, blob.size, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     this.startDownload(blob, `alter-${Date.now()}.docx`);
+    this.isDocxDownloadInProgress = false;
   }
 
   async getJson() {
+    this.isJsonDownloadInProgress = true;
     let blob = await this.bandService.exportBandsToJson();
     blob = blob.slice(0, blob.size, 'application/json');
     this.startDownload(blob, `alter-${Date.now()}.json`);
+    this.isJsonDownloadInProgress = false;
   }
 
 }

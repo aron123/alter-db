@@ -196,9 +196,13 @@ async function exportBandsToDocx(req, res) {
 async function exportBandsToJson(req, res) {
     try {
         const bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band;`);
+        const images = await db.all(`SELECT id, band_id, thumbnail_url, url FROM image;`);
+        const data = mergeImagesToBands(images, bands);
+
         res.setHeader('Content-Disposition', 'attachment; filename=alter.json');
-        res.send(JSON.stringify(bands));
+        res.send(JSON.stringify(data));
     } catch (err) {
+        console.error(err);
         return handleError(res);
     }
 }

@@ -1,6 +1,26 @@
 <div class="row">
     <div class="col-md-12">
-        <button class="btn btn-primary" (click)="getDocx()">Letöltés (.DOCX)</button>
-        <button class="btn btn-primary ml-2" (click)="getJson()">Letöltés (.JSON)</button>
+        <button class="btn btn-primary" (click)="getDocx()" [disabled]="isDocxDownloadInProgress">
+            <span *ngIf="!isDocxDownloadInProgress">
+                Letöltés (.DOCX)
+            </span>
+            <span *ngIf="isDocxDownloadInProgress">
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Letöltés (.DOCX) ...
+            </span>
+        </button>
+        <button class="btn btn-primary ml-2" (click)="getJson()" [disabled]="isJsonDownloadInProgress">
+            <span *ngIf="!isJsonDownloadInProgress">
+                Letöltés (.JSON)
+            </span>
+            <span *ngIf="isJsonDownloadInProgress">
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Letöltés (.JSON) ...
+            </span>
+        </button>
     </div>
+
+
+
+
 </div>
