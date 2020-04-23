@@ -27,8 +27,9 @@ export class BandsService {
     await this.http.put(`/api/band/${band.id}`, this.bandAdapter.back(band)).toPromise();
   }
 
-  async createBand(band: Band): Promise<any> {
-    await this.http.post(`/api/band/`, this.bandAdapter.back(band)).toPromise();
+  async createBand(band: Band): Promise<Band> {
+    const res: SuccessResponse = this.responseAdapter.adapt(await this.http.post(`/api/band/`, this.bandAdapter.back(band)).toPromise());
+    return this.bandAdapter.adapt(res.data);
   }
 
   async exportBandsToDocx(): Promise<Blob> {

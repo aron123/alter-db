@@ -6,7 +6,7 @@ const { handleError } = require('./common/error-handler');
 const logger = require('./common/site-logger');
 const acts = require('./common/log-acts');
 
-async function getImagesOfBand (req, res) {
+async function getImagesOfBand(req, res) {
     const bandId = req.params.id;
 
     try {
@@ -15,14 +15,14 @@ async function getImagesOfBand (req, res) {
             success: true,
             data: images
         });
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         handleError(err);
     }
-    
+
 }
 
-function generateThumbnailUrl (url) {
+function generateThumbnailUrl(url) {
     const urlParts = url.split('.');
     urlParts[urlParts.length - 2] += 'm'; //medium sized thumbnail
     return urlParts.join('.');
@@ -31,19 +31,27 @@ function generateThumbnailUrl (url) {
 async function createImage(req, res) {
     const image = req.body;
 
-    if (!image.band_id) {
-        return res.status(400).json({
-            success: false,
-            error: 'You can\'t upload image for an undefined band.'
-        });
-    }
-
     if (!image.url || !image.url.startsWith("https:\/\/i.imgur.com\/")) {
         return res.status(400).json({
             success: false,
             error: 'Image URL is not proper.'
         });
     }
+
+    try {
+        const band = await db.get(SQL`SELECT * FROM band WHERE id=${image.band_id};`);
+
+        if (!band) {
+            return res.status(400).json({
+                success: false,
+                error: 'Band ID is not proper.'
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        handleError(res);
+    }
+
 
     try {
         const thumbnail_url = generateThumbnailUrl(image.url);

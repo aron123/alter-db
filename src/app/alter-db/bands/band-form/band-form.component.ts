@@ -16,7 +16,9 @@ export class BandFormComponent implements OnInit {
   id: number;
   showForm: boolean = false;
   isNewBand: boolean = true;
+  isSaveInProgress: boolean = false;
   errorMessage: string;
+  imageErrorMessage: string;
 
   @ViewChild("imageForm", { static: false })
   imageForm: ElementRef;
@@ -60,16 +62,30 @@ export class BandFormComponent implements OnInit {
   }
 
   async saveBand() {
+    this.errorMessage = '';
+    this.isSaveInProgress = true;
+
     try {
-      this.errorMessage = '';
-      this.isNewBand
-        ? await this.bandService.createBand(this.bandForm.value)
-        : await this.bandService.updateBand(this.bandForm.value);
-      this.goBack();
+      if (this.isNewBand) {
+        const bandAdded = await this.bandService.createBand(this.bandForm.value);
+        const bandId = bandAdded.id;
+
+        console.log(bandId);
+        for (const image of this.images) {
+          console.log(image)
+          await this.imgService.uploadImage(bandId, image.url);
+        }
+      } else {
+        await this.bandService.updateBand(this.bandForm.value);
+      }
     } catch (err) {
+      console.error(err);
       const res = err.error;
-      this.errorMessage = res.error;
+      this.errorMessage = res.error || 'Error occurred while saving band.';
     }
+
+    this.isSaveInProgress = false;
+    this.goBack();
   }
 
   fileToBase64(file: File): Promise<string> {
@@ -83,17 +99,21 @@ export class BandFormComponent implements OnInit {
   }
 
   async uploadImages() {
+    this.imageErrorMessage = '';
     this.isUploadInProgress = true;
+
     const bandId = this.bandForm.get('id').value;
     const files: FileList = this.fileUpload.nativeElement.files;
 
     for (const file of Array.from(files)) {
       try {
-        const base64 = await this.fileToBase64(file);
-        const image: Image = await this.imgService.uploadImage(bandId, base64.split(',')[1]);
+        const base64URI = await this.fileToBase64(file);
+        const image: Image = this.isNewBand
+          ? await this.imgService.uploadImage(bandId, base64URI, { temp: true })
+          : await this.imgService.uploadImage(bandId, base64URI);
         this.images.push(image);
       } catch (err) {
-        console.error(err);
+        this.imageErrorMessage = `${err.error} (${file.name})`;
         this.isUploadInProgress = false;
       }
     }
@@ -103,7 +123,10 @@ export class BandFormComponent implements OnInit {
   }
 
   async deleteImage(img: Image) {
-    await this.imgService.deleteImage(img.id);
+    if (!this.isNewBand) {
+      await this.imgService.deleteImage(img.id);
+    }
+
     const index = this.images.indexOf(img);
     this.images.splice(index, 1);
   }
