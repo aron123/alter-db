@@ -70,9 +70,7 @@ export class BandFormComponent implements OnInit {
         const bandAdded = await this.bandService.createBand(this.bandForm.value);
         const bandId = bandAdded.id;
 
-        console.log(bandId);
         for (const image of this.images) {
-          console.log(image)
           await this.imgService.uploadImage(bandId, image.url);
         }
       } else {
@@ -82,6 +80,8 @@ export class BandFormComponent implements OnInit {
       console.error(err);
       const res = err.error;
       this.errorMessage = res.error || 'Error occurred while saving band.';
+      this.isSaveInProgress = false;
+      return;
     }
 
     this.isSaveInProgress = false;
