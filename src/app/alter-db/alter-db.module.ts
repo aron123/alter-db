@@ -9,15 +9,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ExportComponent } from './export/export.component';
 import { SiteLogComponent } from './site-log/site-log.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from '../shared/shared.module';
+import { SubmitButtonComponent } from '../shared/components/submit-button/submit-button.component';
 
 @NgModule({
-  declarations: [AlterDBComponent, BandsComponent, BandFormComponent, ExportComponent, SiteLogComponent],
+  declarations: [
+    AlterDBComponent,
+    BandsComponent,
+    BandFormComponent,
+    ExportComponent,
+    SiteLogComponent
+  ],
   imports: [
     CommonModule,
     AlterDBRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    SharedModule
   ]
 })
 export class AlterDBModule { }

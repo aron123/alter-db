@@ -1,0 +1,9 @@
+<button [ngClass]="class" [disabled]="loading">
+    <span *ngIf="!loading">
+        {{ text }}
+    </span>
+    <span *ngIf="loading">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        {{ text }} …
+    </span>
+</button>
