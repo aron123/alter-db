@@ -1,7 +1,7 @@
 {
   "name": "alter-db",
   "version": "1.0.0",
-  "description": "AlterDB for nCore.",
+  "description": "Alter music database",
   "main": "index.js",
   "scripts": {
     "start-backend-dev": "nodemon backend",
