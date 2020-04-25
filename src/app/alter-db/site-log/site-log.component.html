@@ -15,7 +15,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let entry of logEntries">
-                    <td>{{ entry.time.toLocaleString('hu-HU', { timezone: 'Europe/Budapest' }) }}</td>
+                    <td class="no-wrap">{{ entry.time.toLocaleString('hu-HU', { timezone: 'Europe/Budapest' }) }}</td>
                     <td>{{ entry.nick }}</td>
                     <td>{{ entry.act }}</td>
                     <td>{{ entry.originalContent }}</td>
