@@ -8,7 +8,7 @@
             <div *ngIf="loading" class="alert alert-primary text-center" role="alert">
                 Logging in ...
             </div>
-            <form (submit)="login()">
+            <form>
                 <div class="form-group">
                     <input type="text" class="form-control" id="nick" name="nick" [(ngModel)]="nick"
                         placeholder="Nickname">
