@@ -26,7 +26,7 @@ async function getImages (bandId) {
 
 async function getAllBands(req, res) {
     try {
-        const bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band;`);
+        const bands = await db.all(`SELECT id, name, foundation_year, members, description FROM band ORDER BY name ASC;`);
         const images = await db.all(SQL`SELECT id, url, band_id, thumbnail_url FROM image;`);
         const data = mergeImagesToBands(images, bands);
 
