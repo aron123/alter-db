@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div *ngIf="!loaded">
+                Activation is in progress ...
+            </div>
+            <div *ngIf="loaded && !isError" class="alert alert-success" role="alert">
+                Your account is activated successfully. <a routerLink="/login">Please log in.</a>
+            </div>
+            <div *ngIf="loaded && isError" class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,8 +15,16 @@ export class AuthService {
     public http: HttpClient,
     public tokenService: TokenService,
     public router: Router) {
-      this.jwtHelper = new JwtHelperService();
-    }
+    this.jwtHelper = new JwtHelperService();
+  }
+
+  async register(user: any): Promise<any> {
+    await this.http.post('/api/user/register', user).toPromise();
+  }
+
+  async activate(key: string): Promise<any> {
+    return await this.http.post(`/api/user/activate/${key}`, {}).toPromise();
+  }
 
   async login(nick: string, password: string) {
     let res: any;

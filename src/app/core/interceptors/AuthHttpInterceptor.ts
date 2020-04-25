@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { TokenService } from '../services/token.service';
 import { AuthService } from '../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthHttpInterceptor implements HttpInterceptor {
@@ -15,7 +16,7 @@ export class AuthHttpInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (req.url.startsWith('https://api.imgur.com/')) {
             req = req.clone({
-                headers: req.headers.set('Authorization', 'Client-ID 595b4cc85fdb7a6')
+                headers: req.headers.set('Authorization', `Client-ID ${environment.imgurClientId}`)
             });
 
             return next.handle(req);

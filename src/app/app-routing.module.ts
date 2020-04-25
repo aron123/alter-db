@@ -8,6 +8,14 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
   {
+    path: 'register',
+    loadChildren: () => import('./registration/registration.module').then(m => m.RegistrationModule)
+  },
+  {
+    path: 'activate',
+    loadChildren: () => import('./email-activation/email-activation.module').then(m => m.EmailActivationModule)
+  },
+  {
     path: '',
     loadChildren: () => import('./alter-db/alter-db.module').then(m => m.AlterDBModule)
   }
