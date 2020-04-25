@@ -11,6 +11,7 @@ import { SiteLogComponent } from './site-log/site-log.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
 import { SubmitButtonComponent } from '../shared/components/submit-button/submit-button.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SubmitButtonComponent } from '../shared/components/submit-button/submit
     BandsComponent,
     BandFormComponent,
     ExportComponent,
-    SiteLogComponent
+    SiteLogComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,
