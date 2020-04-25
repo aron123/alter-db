@@ -21,7 +21,7 @@ export class SiteLogEntryAdapter implements Adapter<SiteLogEntry> {
     adapt(entry: any): SiteLogEntry {
         return new SiteLogEntry(
             entry.id,
-            entry.time,
+            new Date(entry.time),
             entry.nick,
             entry.act,
             entry.original,
