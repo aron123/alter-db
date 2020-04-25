@@ -1,10 +1,12 @@
 const config = require('./config');
-const bodyParser = require('body-parser');
-const express = require('express');
-const app = express();
 const db = require('./utils/database');
 const jwt = require('./utils/jwtUtils');
+const { handleBodyParserError } = require('./utils/body-parser-error-handler');
+
+const bodyParser = require('body-parser');
 const history = require('connect-history-api-fallback');
+const express = require('express');
+const app = express();
 
 if (process.env.NODE_ENV === 'production') {
     app.use(history({}));
@@ -15,9 +17,10 @@ if (process.env.NODE_ENV === 'production') {
     db.db = connection;
 
     app.use(bodyParser.json());
+    app.use(handleBodyParserError);
 
     const apiRouter = express.Router();
-    
+
     apiRouter.use(jwt.checkJwt);
     apiRouter.use(jwt.handleAuthenticationError);
     apiRouter.use('/user', require('./routes/user'));
