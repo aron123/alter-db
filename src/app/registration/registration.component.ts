@@ -52,6 +52,7 @@ export class RegistrationComponent implements OnInit {
     } catch (err) {
       this.alertMessage = err.error.error;
       this.loading = false;
+      window['grecaptcha'].reset();
       return;
     }
 
