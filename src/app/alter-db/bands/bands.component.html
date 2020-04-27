@@ -31,7 +31,7 @@
                                 <div class="row">
                                     <div class="col-md-4 text-center" *ngFor="let image of band.images">
                                         <a [href]="image.url" target="_blank">
-                                            <img [src]="image.thumbnailUrl" class="thumbnail p-1" alt="Kép">
+                                            <img [defaultImage]="defaultImage" [lazyLoad]="image.thumbnailUrl" class="thumbnail p-1" alt="Kép">
                                         </a>
                                     </div>
                                 </div>

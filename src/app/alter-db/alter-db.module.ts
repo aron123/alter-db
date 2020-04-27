@@ -10,7 +10,7 @@ import { ExportComponent } from './export/export.component';
 import { SiteLogComponent } from './site-log/site-log.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../shared/shared.module';
-import { SubmitButtonComponent } from '../shared/components/submit-button/submit-button.component';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { AboutComponent } from './about/about.component';
 
 @NgModule({
@@ -28,7 +28,8 @@ import { AboutComponent } from './about/about.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    LazyLoadImageModule
   ]
 })
 export class AlterDBModule { }

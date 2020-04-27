@@ -1,6 +1,8 @@
 .thumbnail {
     display: block;
+    min-width: 210px;
     max-width: 210px;
+    min-height: 158px;
     max-height: 158px;
     width: auto;
     height: auto;
