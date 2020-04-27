@@ -4,10 +4,10 @@
         <hr>
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let band of bands">
-                <div class="container-fluid">
+                <div class="container-fluid" [id]="band.id">
                     <div class="row">
-                        <div class="col-md-6">
-                            <span class="font-weight-bold">#{{ band.id }}</span> - {{ band.name }}
+                        <div class="col-md-6 font-weight-bold">
+                            {{ band.name }}
                         </div>
                         <div class="col-md-6">
                             <button class="btn btn-sm btn-primary" (click)="goToEditForm(band.id)">Szerkesztés</button>
@@ -31,7 +31,7 @@
                                 <div class="row">
                                     <div class="col-md-4 text-center" *ngFor="let image of band.images">
                                         <a [href]="image.url" target="_blank">
-                                            <img [defaultImage]="defaultImage" [lazyLoad]="image.thumbnailUrl" class="thumbnail p-1" alt="Kép">
+                                            <img [lazyLoad]="image.thumbnailUrl" class="thumbnail p-1" alt="Kép">
                                         </a>
                                     </div>
                                 </div>

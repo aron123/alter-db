@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class BandsComponent implements OnInit {
 
   bands: Band[];
-  defaultImage: string = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO89h8AArEB1x5becoAAAAASUVORK5CYII=';
 
   constructor(
     public bandsService: BandsService,
