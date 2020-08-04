@@ -2,8 +2,15 @@
     <div class="col-md-12">
         <h4>Zenekarok</h4>
         <hr>
+        <div class="container-fluid">
+            <div class="row mt-3 mb-3">
+                <div class="col-md-6 offset-md-3">
+                    <a href="#" class="ml-3" (click)="listOnlyBandsWithPrefix(prefix)" *ngFor="let prefix of bandPrefixes">{{ prefix }}</a>
+                </div>
+            </div>
+        </div>
         <ul class="list-group">
-            <li class="list-group-item" *ngFor="let band of bands">
+            <li class="list-group-item" *ngFor="let band of bandsToShow">
                 <div class="container-fluid" [id]="band.id">
                     <div class="row">
                         <div class="col-md-6 font-weight-bold">
