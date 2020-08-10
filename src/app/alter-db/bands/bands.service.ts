@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Band, BandAdapter } from 'src/app/core/models/band.model';
 import { SuccessResponse, SuccessResponseAdapter } from 'src/app/core/models/success-response.model';
 
@@ -15,6 +15,14 @@ export class BandsService {
 
   async getAllBands(): Promise<Band[]> {
     const res: SuccessResponse = this.responseAdapter.adapt(await this.http.get('/api/band/').toPromise());
+    return res.data.map(band => this.bandAdapter.adapt(band));
+  }
+
+  async searchBands(query: string): Promise<Band[]> {
+    const params = new HttpParams({
+      fromObject: { query }
+    });
+    const res: SuccessResponse = this.responseAdapter.adapt(await this.http.get('/api/band/search', { params }).toPromise());
     return res.data.map(band => this.bandAdapter.adapt(band));
   }
 

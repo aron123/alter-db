@@ -5,3 +5,7 @@
     width: auto;
     height: auto;
 }
+
+a {
+    word-break: break-all;
+}

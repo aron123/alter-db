@@ -3,6 +3,7 @@ const router = express.Router();
 const controller = require('../controllers/band');
 
 router.get('/', controller.getAllBands);
+router.get('/search', controller.searchBands);
 router.get('/export/docx', controller.exportBandsToDocx);
 router.get('/export/json', controller.exportBandsToJson);
 router.get('/:id', controller.getBandById);

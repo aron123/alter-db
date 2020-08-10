@@ -63,6 +63,32 @@ async function getBandById(req, res) {
     }
 }
 
+async function searchBands(req, res) {
+    let { query } = req.query;
+    
+    if (!query || query.length < 3) {
+        return res.json({
+            success: true,
+            data: []
+        });
+    }
+
+    try {
+        const bands = await db.all(SQL`SELECT id, name, foundation_year, members, description FROM band WHERE name LIKE '%' || ${query} || '%' ORDER BY name ASC;`);
+        const images = await db.all(SQL`SELECT id, url, band_id, thumbnail_url FROM image;`);
+        const data = mergeImagesToBands(images, bands);
+
+        res.json({
+            success: true,
+            data
+        });
+    } catch (err) {
+        console.error(err);
+        handleError(res);
+    }
+    
+}
+
 async function modifyBand(req, res) {
     const { id } = req.params;
     const { name, foundation_year, members, description } = req.body;
@@ -210,6 +236,7 @@ async function exportBandsToJson(req, res) {
 
 module.exports = {
     getAllBands,
+    searchBands,
     getBandById,
     modifyBand,
     createBand,

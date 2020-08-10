@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BandsService } from './bands.service';
 import { Band } from 'src/app/core/models/band.model';
 import { Router } from '@angular/router';
+import { Subject, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 interface SortedBand {
   key: string;
@@ -18,6 +20,28 @@ export class BandsComponent implements OnInit {
   bands: Band[];
   bandsToShow: Band[];
   sortedBands: SortedBand[];
+
+  // TODO: beautify
+  private bandSearchSubject = new Subject<string>();
+  readonly bandSearchResult$ = this.bandSearchSubject
+    .pipe(
+      debounceTime(350),
+      distinctUntilChanged(),
+      switchMap(query => {
+        if (!query) {
+          this.bandsToShow = this.bands;
+          return of([]);
+        }
+
+        if (query.length < 3) {
+          return of([]);
+        }
+
+        this.bandsService.searchBands(query).then(res => this.bandsToShow = res);
+        return of([]);
+      })
+    )
+    .subscribe();
 
   constructor(
     public bandsService: BandsService,
@@ -75,9 +99,17 @@ export class BandsComponent implements OnInit {
     return result;
   }
 
+  listAllBands() {
+    this.bandsToShow = this.bands;
+  }
+
   listOnlyBandsWithPrefix(prefix: string) {
     const bandsWithPrefix: SortedBand[] = this.sortedBands.filter(element => element.key === prefix);
     this.bandsToShow = bandsWithPrefix[0].bands;
+  }
+
+  searchBands(query: string) {
+    this.bandSearchSubject.next(query);
   }
 
   goToEditForm(id: number) {
