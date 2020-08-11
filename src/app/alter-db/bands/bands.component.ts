@@ -21,6 +21,8 @@ export class BandsComponent implements OnInit {
   bandsToShow: Band[];
   sortedBands: SortedBand[];
 
+  initialized: boolean = false;
+
   // TODO: beautify
   private bandSearchSubject = new Subject<string>();
   readonly bandSearchResult$ = this.bandSearchSubject
@@ -51,6 +53,7 @@ export class BandsComponent implements OnInit {
     this.bands = await this.bandsService.getAllBands();
     this.bandsToShow = this.bands;
     this.sortedBands = this.sortBands(this.bands);
+    this.initialized = true;
   }
 
   get bandPrefixes() {

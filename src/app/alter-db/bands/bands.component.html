@@ -2,10 +2,16 @@
     <div class="col-md-12">
         <h4>Zenekarok</h4>
         <hr>
-        <div class="container-fluid">
+        <div *ngIf="!initialized" class="d-flex justify-content-center spinner-container">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div class="container-fluid" *ngIf="initialized">
             <div class="row mb-2">
                 <div class="col-md-8 offset-md-2">
-                    <input type="text" class="form-control" placeholder="Keresett zenekar neve ..." (input)="searchBands($event.target.value)">
+                    <input type="text" class="form-control" placeholder="Keresett zenekar neve ..."
+                        (input)="searchBands($event.target.value)">
                 </div>
             </div>
             <div class="row mb-2">
@@ -15,45 +21,47 @@
                         *ngFor="let prefix of bandPrefixes">{{ prefix }}</a>
                 </div>
             </div>
-        </div>
-        <ul class="list-group">
-            <li class="list-group-item" *ngFor="let band of bandsToShow">
-                <div class="container-fluid" [id]="band.id">
-                    <div class="row">
-                        <div class="col-md-6 font-weight-bold">
-                            {{ band.name }}
-                        </div>
-                        <div class="col-md-6">
-                            <button class="btn btn-sm btn-primary" (click)="goToEditForm(band.id)">Szerkesztés</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div>
-                                <span class="font-weight-bold">Alapítás éve:</span> {{ band.foundationYear }}
+
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let band of bandsToShow">
+                    <div class="container-fluid" [id]="band.id">
+                        <div class="row">
+                            <div class="col-md-6 font-weight-bold">
+                                {{ band.name }}
                             </div>
-                            <div>
-                                <span class="font-weight-bold">Tagok:</span> {{ band.members }}
-                            </div>
-                            <div style="white-space: pre-wrap;">
-                                <span class="font-weight-bold">Leírás:</span><br>
-                                {{ band.description }}
+                            <div class="col-md-6">
+                                <button class="btn btn-sm btn-primary"
+                                    (click)="goToEditForm(band.id)">Szerkesztés</button>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-4 text-center" *ngFor="let image of band.images">
-                                        <a [href]="image.url" target="_blank">
-                                            <img [lazyLoad]="image.thumbnailUrl" class="thumbnail p-1" alt="Kép">
-                                        </a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div>
+                                    <span class="font-weight-bold">Alapítás éve:</span> {{ band.foundationYear }}
+                                </div>
+                                <div>
+                                    <span class="font-weight-bold">Tagok:</span> {{ band.members }}
+                                </div>
+                                <div style="white-space: pre-wrap;">
+                                    <span class="font-weight-bold">Leírás:</span><br>
+                                    {{ band.description }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4 text-center" *ngFor="let image of band.images">
+                                            <a [href]="image.url" target="_blank">
+                                                <img [lazyLoad]="image.thumbnailUrl" class="thumbnail p-1" alt="Kép">
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>

@@ -9,3 +9,12 @@
 a {
     word-break: break-all;
 }
+
+.spinner-container {
+    margin-top: 5rem;
+}
+
+.spinner-border {
+    width: 5rem;
+    height: 5rem;
+}
