@@ -22,7 +22,7 @@ function isEmailValid(email) {
     return regex.test(email);
 }
 
-async function isCaptchaSolved (token) {
+async function isCaptchaSolved(token) {
     try {
         const params = new URLSearchParams();
         params.append('secret', config.reCaptchaSecretKey);
@@ -38,6 +38,10 @@ async function isCaptchaSolved (token) {
         console.error(err);
         return false;
     }
+}
+
+async function hashPassword (password) {
+    return bcrypt.hash(String(password), config.bcryptSaltRounds)
 }
 
 async function createUser(req, res) {
@@ -67,7 +71,7 @@ async function createUser(req, res) {
     let passwordHash;
 
     try {
-        passwordHash = await bcrypt.hash(String(req.body.password), config.bcryptSaltRounds);
+        passwordHash = await hashPassword(req.body.password);
     } catch (err) {
         console.error(err);
         return serverErrorHandler.handleError(res);
@@ -106,7 +110,7 @@ async function createUser(req, res) {
     });
 }
 
-async function activateUser (req, res) {
+async function activateUser(req, res) {
     const key = req.params.key;
 
     if (!key) {
@@ -154,7 +158,7 @@ async function loginUser(req, res) {
         console.error(err);
         return serverErrorHandler.handleError(res);
     }
-    
+
     if (!user) {
         return handleError(res);
     }
@@ -178,8 +182,54 @@ async function loginUser(req, res) {
     return res.json({ success: true, accessToken });
 }
 
+async function getUser(req, res) {
+    const userId = req.user.id;
+
+    try {
+        const data = await db.get(SQL`SELECT id, nick, email FROM user WHERE id=${userId} AND activated=1`);
+
+        if (!data) {
+            return res.status(404).json({
+                success: false,
+                error: 'The user is not exists.'
+            });
+        }
+
+        res.json({
+            success: true,
+            data
+        });
+    } catch (err) {
+        console.error(err);
+        return serverErrorHandler.handleError(res);
+    }
+}
+
+async function changePassword (req, res) {
+    const password = req.body.password;
+    const userId = req.user.id;
+
+    if (!password) {
+        return res.status(400).json({
+            success: false,
+            error: 'A new password must be provided.'
+        });
+    }
+
+    try {
+        const passwordHash = await hashPassword(String(password));
+        await db.run(SQL`UPDATE user SET password=${passwordHash} WHERE id=${userId}`);
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        return serverErrorHandler.handleError(res);
+    }
+}
+
 module.exports = {
     loginUser,
     createUser,
-    activateUser
+    activateUser,
+    getUser,
+    changePassword
 };

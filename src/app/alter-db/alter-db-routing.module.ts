@@ -7,6 +7,7 @@ import { BandFormComponent } from './bands/band-form/band-form.component';
 import { ExportComponent } from './export/export.component';
 import { SiteLogComponent } from './site-log/site-log.component';
 import { AboutComponent } from './about/about.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
       {
         path: 'export',
         component: ExportComponent
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent
       },
       {
         path: 'about',

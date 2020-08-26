@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-12">
+        <h4>Beállítások</h4>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="alert alert-success" role="alert" *ngIf="!isSubmitInProgress && isSuccess">
+                    {{ alertMessage }}
+                </div>
+                <div class="alert alert-danger" role="alert" *ngIf="!isSubmitInProgress && isSuccess === false">
+                    {{ alertMessage }}
+                </div>
+                <form [formGroup]="settingsForm">
+                    <div class="form-group row">
+                        <label for="email" class="col-md-3">E-mail:</label>
+                        <input type="email" class="form-control col-md-9" id="email" formControlName="email">
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="nick" class="col-md-3">Felhasználónév:</label>
+                        <input type="text" class="form-control col-md-9" id="nick" formControlName="nick">
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-md-3">Új jelszó:</label>
+                        <input type="password" class="form-control col-md-9" id="password" formControlName="password">
+                    </div>
+
+                    <app-submit-button [class]="'btn btn-sm btn-success'" [loading]="isSubmitInProgress"
+                        [text]="'Mentés'" (click)="changePassword()"></app-submit-button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
