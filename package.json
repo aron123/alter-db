@@ -35,7 +35,7 @@
     "docx": "^5.0.2",
     "express": "^4.17.1",
     "express-jwt": "^5.3.1",
-    "jsdom": "^16.1.0",
+    "jsdom": "^16.5.0",
     "jsonwebtoken": "^8.5.1",
     "ng-lazyload-image": "^7.1.0",
     "node-fetch": "^2.6.0",
