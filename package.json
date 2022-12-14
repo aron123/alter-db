@@ -33,7 +33,7 @@
     "bootstrap": "^4.4.1",
     "connect-history-api-fallback": "^1.6.0",
     "docx": "^5.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "jsdom": "^16.1.0",
     "jsonwebtoken": "^8.5.1",
